@@ -1,0 +1,1 @@
+This is a type game i am building as a project for my portfolio to practice pure js and also i have made cool animation using only css i also add some of
