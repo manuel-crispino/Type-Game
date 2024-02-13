@@ -1,0 +1,90 @@
+<%- include('partials/header.ejs') %>
+<div class="earth-div">
+    <div class="world"></div>
+
+</div >
+
+<div id="text-game-div" class="text-div">
+    <h1 class="h1-game">Test Your Type skills !</h1>
+    <p>
+        This is the right website for you ! here you can master your typing skills.<br>
+        You have 60 seconds to see how many words you can type in 1 minute.
+    </p>
+    <button id="start-button">click to play</button>
+</div>
+<!--game div -->
+
+<div id="game-word-div" class="hide">
+    <span id="game-words" class=""></span>
+</div>
+<div id="input-div" class="hide">
+    <h2 id="h2-game-input">TYPE TO START</h2>
+
+    <div>
+        <input id="input-game" type="text" placeholder="Type here...">
+        <br>
+        <div class="btn-input-div">
+            <button id="restart">🔁</button>
+            <button id="countdown">60</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="game-result" class="result-card"></div>
+
+<!-- This is where the game result will be displayed -->
+</div>
+<div class="post-div ">
+<h1 class="h1-game">Do you like the game?</h1>
+<p class="p-post">I would appreciate your feedback and also some tips or
+    features you would like to see...</p>
+<form id="feedback-form" action="/submit" method="post">
+    <input
+        id="comment-box"
+        type="text"
+        name="feedback-post"
+        placeholder="  write your feedback..">
+    <input type="submit" class="buttons" value="send">
+
+</form>
+<button id="see-reviews" class="buttons"></button>
+<div class="feedback hide">
+    <!--use locals. to check if variable exist-->
+    <% if ( locals.feedback  ) { %>
+
+        <!-- Check if 'feedback' is defined -->
+        <div id="feedback" class=" feedback post" class="hide">
+            <form action="/edit" method="post" class="">
+                <input id="feedInput" value="<%= feedback %> " readonly name="edit-post">
+                <input id="sendEdit"  type="submit" class="buttons hide" value="send">
+            </form>
+           <div>
+                <form action="/delete" method="post">
+                    <input class="hide"  value="" name="delete-post">
+                    <input type="submit" 
+                    id="delete-post" class="buttons" value="delete" >
+                </form>
+                
+           
+                
+                <button id="update-post-btn" class="edit-post-btn buttons">Edit</button>
+            </div>
+        </div>
+        <!--if user click edit form appear -->
+        
+
+        
+
+    <% } else { %>
+        <p >No feedback yet</p>
+        <!-- Display a message when 'feedback' is not defined -->
+    <% } %>
+</div>
+</div>
+</div>
+
+</div>
+
+<%- include('partials/footer.ejs') %>
+<script src="/words.js"></script>
