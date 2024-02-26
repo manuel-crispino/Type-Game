@@ -38,6 +38,15 @@ deletePost.addClass('hide');
 
     
 })
+//game start button function//
+const startButton= document.getElementById("start-button");
+
+startButton.addEventListener('click',()=>{
+document.getElementById('game-word-div').classList.toggle('hide');
+document.getElementById('input-div').classList.toggle('hide');
+document.getElementById('text-game-div').classList.add('hide');
+})
+
 
 
 

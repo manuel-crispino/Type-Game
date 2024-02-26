@@ -172,14 +172,15 @@ nav:hover {
 
 }
 #welcome-animation {
-    animation-name: welcome-animation-glow, welcome-animation;
-    animation-duration: 0.5s,15s;
+    animation-name: welcome-animation-glow;
+    animation-duration: 0.5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 
 }
 #welcome-animation-div {
- 
+ text-align: right;
+ padding-right:1rem;
   position: fixed;
     margin-top: 3rem;
     margin-bottom: 0rem;
@@ -297,7 +298,17 @@ nav:hover {
     background-color: pink;
     /* Adjust this color as needed */
 }
+.game-word-div-text {
+    
 
+  
+    max-height: 9rem;; /* Imposta un'altezza massima per il contenitore */
+    overflow-y: hidden; /* Abilita lo scorrimento verticale se necessario */
+    overflow: hidden;
+    /* Enable scrolling if content exceeds the height */
+
+  
+}
 #game-word-div {
     margin-top: 3rem;
     text-align: center;
@@ -307,14 +318,28 @@ nav:hover {
     border-radius: 0.5rem;
     box-shadow: 0 0 20px 15px #9448e0;
 
-    max-height: 20rem;
-    /* Set a maximum height */
-    overflow: auto;
-    /* Enable scrolling if content exceeds the height */
-
+   
+    max-height:9rem; /* Imposta un'altezza massima per il contenitore */
+    overflow-y: hidden; /* Abilita lo scorrimento verticale se necessario */
+    overflow: hidden;
     border: 1px solid #ccc;
-    padding-top: 5rem;
-    padding-bottom: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.correct{
+    color: #149516;
+    background-color: transparent ; 
+}
+.wrong-word-color{
+    color: #c31414;
+    background-color: transparent ; 
+}
+
+.wrong-word{
+    color: #ff0000;
+   }
+.red-background{
+background-color: red;
 }
 
 #input-div {
@@ -434,6 +459,7 @@ nav:hover {
     text-shadow: 0 0 50px #0072ff, 0 0 100px #0072ff, 0 0 150px #0072ff, 0 0 200px #0072ff;
     animation: animate 3s linear infinite;
 }
+
 #start-button:hover {
     transform: translateY(-1rem);
 }
@@ -563,4 +589,11 @@ nav:hover {
     margin-left: 5rem;
     margin-right: 5rem;
 
+}
+.gameWords{
+    font-size: xx-large;
+}
+
+.highlight{
+    background-color: rgba(173, 170, 170, 0.835);
 }

@@ -1,15 +1,4 @@
-const gameDisplay = document.querySelectorAll('#game-word-div, #input-div');
-const startingButton = document.getElementById("start-button");
-const textDiv = document.querySelector('#text-game-div')
-
-startingButton.addEventListener("click", () => {
-    gameDisplay.forEach(element => {
-        element.classList.remove("hide");
-    });
-    textDiv.classList.add('hide')
-   document.getElementById('game-word-div').scrollIntoView({ behavior: 'smooth' });
-});
-const randomWords = [
+const words = [
     "acorn",
     "and",
     "as",
@@ -271,178 +260,392 @@ const randomWords = [
     "young",
     "youth",
     "yacht",
-    "zebra",
+    "zebra"
 ];
+let pressedIndex;
+let wordWasWrong = false;
+let wordWasCorrect = false;
+let spacePressed;
+let countDown = document.getElementById('countdown'); //selecting countdown//
+let timeRemaining = 60; //time Game//
+let countDownStarted = false;
+let randomWordsGame = []; //game words generated word//
+let resultChecker = []; // this will push correct or wrong words for the final score//
+let keystroke = 0;
+const randomIndex = 400; //words should generate until this number//
+const startBtn = document.getElementById("start-button");
+let wordIndex = 0; //is counting for every word that will be highlighted //
+let inputUser = document.getElementById('input-game'); //take te input bar//
+let lineOfWords = 10;
+let wrongLetter = 0;
+let timeEnd = false;
+let correctWord = 0;
+let wrongWord = 0;
+let highlightedWord;
+let wordNr;
+let wordClass;
+let gameContainer = document.querySelector('.game-word-div-text');
+let lineIndex;
+let userInputValue;
+let currentWord;
+startBtn.addEventListener('click', () => {
+    generateWords();
 
-// Array to hold the words for the game
-let words = [...randomWords];
+})
 
-// Variables to track correct and incorrect word counts
-let correctWords = 0;
-let incorrectWords = 0;
+function generateWords() { //generating a random game of words//
+    while (randomWordsGame.length < randomIndex) {
 
-// Timer variable initialization
-let timer = null;
-
-// Function to get a random word from the words array
-function getRandomWord() {
-    if (words.length === 0) 
-        return '';
-    const randomIndex = Math.floor(Math.random() * words.length);
-    return words[randomIndex];
-}
-
-// Function to update the displayed word
-function updateGameWordDisplay(word) {
-    const wordSpan = document.getElementById('game-words');
-    wordSpan.textContent = '';
-
-    for (let i = 0; i < word.length; i++) {
-        const span = document.createElement('span');
-        span.textContent = word[i];
-        wordSpan.appendChild(span);
+        let randomWordsGenerator = Math.floor(Math.random() * words.length) //create random words//
+        let randomWords = words[randomWordsGenerator]; //words display random generator//
+        randomWordsGame.push(randomWords); //push the generated words into the game generator array to display//
     }
-}
 
-// Function to display the game result
-function displayGameResult() {
-    const resultDiv = document.getElementById('game-result');
-    const accuracy = ((correctWords / (correctWords + incorrectWords)) * 100).toFixed(2);
+    generateSpan();
 
-    resultDiv.innerHTML = `
-    <div class="result-card">
-      <h2>${correctWords} Words per minute </h2>
-      <p>Correct words: ${correctWords}</p>
-      <p>Incorrect words: ${incorrectWords}</p>
-      <p>Accuracy: ${accuracy}%</p>
-    </div>
-  `;
-}
+};
 
-// Function to reset the game and result to its initial state
-function resetGameAndResult() {
-    resetGame();
-    const resultDiv = document.getElementById('game-result');
-    resultDiv.innerHTML = ''; // Clear the game result
-}
+let span;
 
-// Function to start the countdown timer for 60 seconds
-function startCountdown() {
-    let countdown = 60;
-    document
-        .getElementById('countdown')
-        .textContent = countdown;
+let lineNrCount = 0;
+let lineNrArray = [];
+let currentLine;
 
-    // Decrements countdown every second until it reaches 0, then ends the game
-    timer = setInterval(() => {
-        countdown--;
-        document
-            .getElementById('countdown')
-            .textContent = countdown;
-        if (countdown <= 0) {
-            clearInterval(timer);
-            endGame();
-        }
-    }, 1000); // Updates countdown every 1000 milliseconds (1 second)
-}
+function generateSpan() {
+    gameContainer.innerHTML = " "; //this is to avoid to clean the container//
+    let lineNr = null;
+    randomWordsGame.forEach((currentWord, index) => {
+        highlightedWord = currentWord;
+        wordNr = index;
+        span = document.createElement('span'); //creating a span for each word//
+        span.textContent = currentWord + " "; //adding to each span a word from the randomWordsArray and also add space between words//
+        span.setAttribute('word-nr', index); //add to each span the attribute and number of length//
+        span
+            .classList
+            .add('gameWords');
 
-// Function to reset the game to its initial state
-function resetGame() {
-    clearInterval(timer);
-    words = [...randomWords];
-    correctWords = 0;
-    incorrectWords = 0;
-    
-    $('#h2-game-input').text('TYPE TO START PLAY')
-    document
-        .getElementById('countdown')
-        .textContent = '60';
-    document
-        .getElementById('input-game')
-        .value = '';
-    document
-        .getElementById('input-game')
-        .disabled = false;
-    updateGameWordDisplay(getRandomWord());
-}
+        if (index % 10 === 0 || index === 0) { //creating a line of 10 words //
+            lineNr = document.createElement('div');
+            lineNr.appendChild(document.createElement('br'));
+            lineNrCount++;
 
-// Function to end the game by disabling the input field and showing results
-function endGame() {
-    document
-        .getElementById('input-game')
-        .disabled = true;
-    displayGameResult(); // Display game results using the new function
-}
-
-// Event listener triggered when the window is loaded
-window.addEventListener('load', () => {
-    updateGameWordDisplay(getRandomWord()); // Updates the displayed word on window load
-    const inputGame = document.getElementById('input-game');
-    let countdownStarted = false;
-
-    // Event listener for user input in the game
-    inputGame.addEventListener('input', function (e) {
-        if (!countdownStarted) {
-           
-            $('#h2-game-input').text('Press the space bar after typing a word to move to the next word')
-            startCountdown(); // Starts the countdown when user begins typing
-            countdownStarted = true;
+            lineNr
+                .classList
+                .add('lineNr');
+            lineNr.setAttribute('line-nr', lineNrCount);
+            gameContainer.appendChild(lineNr);
+            lineNrArray.push(lineNr);
         }
 
-        const typedWord = e
-            .target
-            .value
-            .trim(); // Retrieves the typed word
-        const currentWord = document
-            .getElementById('game-words')
-            .textContent
-            .trim(); // Retrieves the current displayed word
-        const wordSpans = document.querySelectorAll('#game-words span'); // Retrieves all span elements within game-words
+        lineNr.appendChild(span);
 
-        // Loop through the characters of the current word and compare with typed characters
-        for (let i = 0; i < currentWord.length; i++) {
-            if (i < typedWord.length) {
-                if (typedWord[i] === currentWord[i]) {
-                    wordSpans[i]
-                        .classList
-                        .add('correct'); // Adds 'correct' class to span for correct characters
-                    wordSpans[i]
-                        .classList
-                        .remove('error'); // Removes 'error' class if present
-                } else {
-                    wordSpans[i]
-                        .classList
-                        .remove('correct'); // Removes 'correct' class if present
-                    wordSpans[i]
-                        .classList
-                        .add('error'); // Adds 'error' class to span for incorrect characters
-                }
-            } else {
-                wordSpans[i]
-                    .classList
-                    .remove('correct', 'error'); // Clears classes for remaining characters
-            }
-        }
-
-        // Proceeds to the next word on space, composition text, or Enter key press
-        if (e.data === ' ' || e.inputType === 'insertCompositionText' || e.code === 'Enter') {
-            e.preventDefault(); // Prevents default behavior for space, composition text, or Enter key input
-
-            if (typedWord === currentWord) {
-                correctWords++; // Increments correct word count if typed word matches the displayed word
-            } else {
-                incorrectWords++; // Increments incorrect word count if typed word does not match
-            }
-            updateGameWordDisplay(getRandomWord()); // Updates the displayed word for the next round
-            inputGame.value = ''; // Clears the input field after typing a word
-        }
     });
 
-    // Event listener for the game restart button
-    document
-        .getElementById('restart')
-        .addEventListener('click', () => {
-            resetGameAndResult();
-            countdownStarted = false; // Resets countdown state
+    wordClass = document.querySelectorAll('.gameWords');
+
+    highlightCurrentWord();
+};
+
+document
+    .getElementById("restart")
+    .addEventListener('click', restart) //restart game when button is clicked//
+
+let endGame;
+
+function restart() {
+    letterIndex = 0;
+    letterEqual = false;
+    goingBack = false;
+    repeatedLetterString = "";
+    repeatedLetter = [];
+    checkIfMatch = [];
+    wrongLetter = 0;
+    wrongInput = false;
+
+    keystroke = 0;
+    endGame = true;
+    resultDiv
+        .classList
+        .add('hide');
+    gameContainerFather
+        .classList
+        .remove('hide');
+    gameContainer
+        .classList
+        .remove('hide');
+    accuracy = "";
+    lineNrArray.length = 0;
+    currentLine = null;
+    resultShowed = false;
+    timeEnd = false;
+    resultChecker = [];
+    correctWord = 0;
+    wrongWord = 0;
+    wordIndex = 0;
+    randomWordsGame = [];
+    countDownStarted = false;
+    inputUser.value = "";
+    timeRemaining = 60;
+    countDown.textContent = timeRemaining;
+    generateWords();
+    showResult();
+}
+
+let wrongInput = false; //check if input is wrong//
+
+function highlightCurrentWord() {
+    if (wordIndex >= 0 && wordIndex < randomWordsGame.length) {
+        Array.from(wordClass) //Array.from() =create an array from each word of the class //
+            .forEach((span, index) => {
+            if (index === wordIndex && wordWasCorrect) {//here check previous word correct or wrong //
+
+                const previousSpan = wordClass[index]; 
+                previousSpan
+                    .classList
+                    .add('correct');
+                wordWasCorrect = false;
+
+            }
+            if (index === wordIndex && wordWasWrong) {//here check previous word correct or wrong //
+
+                const previousSpanWrong = wordClass[index]; 
+                previousSpanWrong
+                    .classList
+                    .add('wrong-word-color');
+                wordWasWrong = false;
+
+            }
+
+            if (index === wordIndex) { //all about highlights//
+                span
+                    .classList
+                    .add('highlight')
+
+                if (wrongInput) {
+                    span
+                        .classList
+                        .remove('highlight');
+                    span
+                        .classList
+                        .add('red-background'); // Add red background class if wrong input
+
+                } else if (!wrongInput) {
+                    span
+                        .classList
+                        .remove('red-background');
+                    span
+                        .classList
+                        .add('highlight'); // Remove red background class if input is correct
+
+                }
+            } else {
+                span
+                    .classList
+                    .remove('highlight');
+
+            }
         });
-});
+        inputUser.focus();
+
+        startType();
+
+    } else {
+        stopType()
+    }
+};
+
+function stopType() {
+    alert('words are finished  wait for timer to finish for the result ')
+
+}
+
+inputUser.addEventListener('keydown', spaceBarHandler);
+let repeatedLetter = [];
+let letterIndex = 0;
+let repeatedLetterString;
+
+function spaceBarHandler(event) {
+    pressedIndex = 0;
+
+    let currentWord = randomWordsGame[wordIndex];
+    let currentLetter = currentWord[letterIndex];
+    let userInputLetter = event.key;
+    if (event.key === " ") { // when space has been clicked //
+        pressedIndex = 0;
+        letterIndex = 0;
+        letterEqual = false;
+        goingBack = false;
+        repeatedLetterString = "";
+        repeatedLetter = [];
+        checkIfMatch = [];
+        wrongLetter = 0;
+        wrongInput = false;
+        checkInput();
+        wordIndex++; //add the word to activate the highlight //
+        highlightCurrentWord();
+
+        if (wordIndex % 10 === 0) {//every 10 words when user press space the line he writhed disappear //
+            lineIndex = Math.floor(wordIndex / 10) - 1; 
+            if (lineIndex >= 0 && lineIndex < lineNrArray.length) { 
+                currentLine = lineNrArray[lineIndex]; 
+                currentLine
+                    .classList
+                    .add('hide'); 
+            }
+        }
+    }
+    if (userInputLetter === 'Backspace' && event.altKey) {
+      //in case user cancel with alt and  backspace //
+        letterIndex = 0;
+        wrongLetter = 0;
+        repeatedLetter = [];
+        wrongInput = false;
+        highlightCurrentWord();
+        pressedIndex = 0;
+
+    } else if (userInputLetter === 'Backspace') {
+        //all input with backspace //
+        if (wrongLetter > 1) {
+            wrongLetter--;
+            letterIndex--;
+           //cancel the wrong word//
+        } else {//else if wrong word are finish //
+            wrongLetter = 0;
+            letterIndex--;
+
+            wrongInput = false;
+            highlightCurrentWord();
+        }
+
+        wrongInput = false;
+    } else if (userInputLetter === 'Shift' || userInputLetter === 'CapsLock' || userInputLetter === 'Enter' || userInputValue === 'Meta') {
+      //ignore all this inputs//
+
+    } else {
+        let alphabeticWords = /[a-zA-Z0-9;,.\-'*#+`]+/;
+
+        if (alphabeticWords.test(userInputLetter)) {
+
+            if (currentLetter === userInputLetter && wrongLetter === 0) {//when the input match the current letter //
+
+                wrongInput = false;
+                repeatedLetter.push(userInputLetter);
+                repeatedLetterString = repeatedLetter.join('');
+                wrongLetter = 0;
+
+                letterIndex++;
+
+            } else {//if current letter do not match//
+                letterIndex++;
+                keystroke++;
+                wrongLetter++;
+                wrongInput = true;
+
+            }
+        } else {
+           //ignore this input//
+        }
+        highlightCurrentWord();
+
+    };
+};
+
+function startType() {
+    inputUser.addEventListener('keydown', (event) => { //if user start typing user start countdown//
+        if (event.key.length === 1 && !countDownStarted) {
+            countDownStarted = true; //check if the first word has been write//
+            startCountDown()
+
+        }
+
+    })
+}
+
+function startCountDown() {
+    endGame = false;
+    countDown.textContent = timeRemaining; //add time remaining into textContent//
+    let countDownInterval = setInterval(() => {
+        //show time change//
+        if (timeRemaining <= 0 || !countDownStarted) {
+            timeEnd = true;
+
+            clearInterval(countDownInterval) //stop the function from keep going when 0 is done//
+
+            showResult();
+
+        } else {
+            timeRemaining--; //decrease time//
+            countDown.textContent = timeRemaining;
+        }
+
+    }, 1000)
+
+}
+
+function checkInput() {
+
+    userInputValue = inputUser
+        .value
+        .trim();
+
+    currentWord = randomWordsGame[wordIndex];
+
+    if (currentWord.length === userInputValue.length) {
+        if (userInputValue === currentWord) {
+            correctWord++;
+            wordWasCorrect = true;
+
+        } else {
+            wrongWord++;
+
+            wordWasWrong = true;
+        }
+
+    } else if (userInputValue !== currentWord) {
+        wrongWord++;
+        wordWasWrong = true;
+    }
+    inputUser.value = "";
+
+    resultChecker.push(userInputValue);
+    //reset input user
+
+    highlightCurrentWord();
+
+}
+
+let resultDiv = document.getElementById('game-result');
+resultDiv
+    .classList
+    .add('hide');
+let resultShowed;
+let wpm
+let accuracy;
+
+let userScore = document.createElement('p');
+let gameContainerFather = document.getElementById('game-word-div');
+function showResult() {
+
+    if (timeRemaining <= 0 && !resultShowed) {
+        wpm = correctWord;
+        accuracy = (correctWord / (correctWord + wrongWord)) * 100;
+        gameContainer
+            .classList
+            .add('hide');
+        gameContainerFather
+            .classList
+            .add('hide');
+        userScore.innerHTML = "Correct words = " + correctWord + ";<br>Wrong words = " + wrongWord + ";<br>Keystrokes = " + keystroke + ";<br>WPM = " + wpm + ";<br>Accuracy = " + accuracy.toFixed(2) + "%;";
+        resultDiv.appendChild(userScore);
+        resultShowed = true;
+        resultDiv
+            .classList
+            .remove('hide');
+    } else {
+        userScore.innerHTML = "";
+        console.log('hide result');
+        resultShowed = false;
+
+    }
+
+}
