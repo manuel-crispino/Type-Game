@@ -540,10 +540,10 @@ console.log(userInputLetter)
                 keystroke++;
                 wrongLetter++;
                 wrongInput = true;
-                console.log(userInputLetter)
+               
             }
         } else {
-          console.log('input not detected') //ignore this input//
+          //ignore this input//
           letterIndex++;
                 keystroke++;
                 wrongLetter++;
@@ -647,7 +647,7 @@ function showResult() {
             .remove('hide');
     } else {
         userScore.innerHTML = "";
-        console.log('hide result');
+        
         resultShowed = false;
 
     }
