@@ -2,14 +2,14 @@
 
 This is a type game built as a project for my portfolio to practice pure JavaScript and CSS animations. The game features a simple yet addictive typing challenge where players have to type the displayed words as fast as possible.
 
-## Features
+# Features
 Pure JavaScript: The game is built entirely with JavaScript, enhancing my skills in the language.
 CSS Animations: Cool animations have been implemented using only CSS, adding visual appeal to the game.
 Navbar Animation: The navbar features JavaScript animations, providing a smooth user experience.
 Online Multiplayer Functionality: Planned future implementation to enable players to compete against each other online.
 Preview
 
-# Check out the live app [here].(https://type-game-4b50c5a9e484.herokuapp.com/)
+# Check out the live app [here](https://type-game-4b50c5a9e484.herokuapp.com/).
 
 
 # Development
