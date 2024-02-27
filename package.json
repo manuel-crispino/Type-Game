@@ -1,0 +1,31 @@
+{
+  "name": "typer-game",
+  "version": "1.0.0",
+  "description": "This is a type game i am building as a project for my portfolio to practice pure js and also i have made cool animation using only css i also add some of the Js Animation for nav bar there was a little bug using only css  once i am happy with the result of the game i will share it online the goal is to also build an online game function against others gamers .",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Manuel Crispino",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "random-words": "^2.0.0",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manuel-crispino/Type-Game.git"
+  },
+  "bugs": {
+    "url": "https://github.com/manuel-crispino/Type-Game/issues"
+  },
+  "homepage": "https://github.com/manuel-crispino/Type-Game#readme"
+}
