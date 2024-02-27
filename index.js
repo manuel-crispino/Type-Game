@@ -28,25 +28,6 @@ app.get("/projects", (req, res) => {
     res.render("projects");
 });
 
-let posts = [];
-
-app.post("/submit", (req, res) => {
-    const userFeedback = req.body["feedback-post"];
-
-    posts.push(userFeedback);
-    res.render("index", {feedback: userFeedback}); // Pass 'feedback' to the template
-});
-
-app.post("/edit", (req, res) => {
-    const newPost = req.body["edit-post"];
-    posts.push[newPost];
-    res.render("index", {feedback: newPost});
-})
-
-app.post("/delete", (req, res) => {
-    const deletePost = req.body["delete-post"];
-    res.redirect("/")
-})
 
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
