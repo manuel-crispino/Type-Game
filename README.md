@@ -9,7 +9,7 @@ Navbar Animation: The navbar features JavaScript animations, providing a smooth 
 Online Multiplayer Functionality: Planned future implementation to enable players to compete against each other online.
 Preview
 
-# Check out the [live](https://type-game-4b50c5a9e484.herokuapp.com/) app here.
+# Check out the live app [here].(https://type-game-4b50c5a9e484.herokuapp.com/)
 
 
 # Development
