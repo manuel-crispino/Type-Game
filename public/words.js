@@ -518,7 +518,7 @@ function spaceBarHandler(event) {
         }
 
         wrongInput = false;
-    } else if (userInputLetter === 'Shift' || userInputLetter === 'CapsLock' || userInputLetter === 'Enter' || userInputValue === 'Meta') {
+    } else if (userInputLetter===" " || userInputLetter === 'Shift' || userInputLetter === 'CapsLock' || userInputLetter === 'Enter' || userInputLetter === 'Meta'||userInputLetter === 'Command'||userInputLetter === 'Win') {
       //ignore all this inputs//
 
     } else {
@@ -534,16 +534,20 @@ function spaceBarHandler(event) {
                 wrongLetter = 0;
 
                 letterIndex++;
-
+console.log(userInputLetter)
             } else {//if current letter do not match//
                 letterIndex++;
                 keystroke++;
                 wrongLetter++;
                 wrongInput = true;
-
+                console.log(userInputLetter)
             }
         } else {
-           //ignore this input//
+          console.log('input not detected') //ignore this input//
+          letterIndex++;
+                keystroke++;
+                wrongLetter++;
+                wrongInput = true;
         }
         highlightCurrentWord();
 
